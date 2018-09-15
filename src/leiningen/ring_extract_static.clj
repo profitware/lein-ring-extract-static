@@ -2,18 +2,8 @@
   (:use [clojure.java.io :as io]
         [leinjacker.eval :only (eval-in-project)]
         [leiningen.ring.server :refer :all]
-        [leiningen.ring.util :only (ensure-handler-set! update-project ring-version)]))
-
-
-(defn get-docker-contents [project]
-  (str "FROM " (if (:openshift project)
-                 "twalter/openshift-nginx:mainline-alpine"
-                 "nginx:alpine")
-       \newline
-       "COPY . /usr/share/nginx/html" \newline))
-
-
-(def ^:dynamic *resource-name* "public")
+        [leiningen.ring.util :only (ensure-handler-set! update-project ring-version)]
+        [ring-extract-static.common :as common]))
 
 
 (defn ring-extract-static
@@ -26,11 +16,7 @@
                       (update-in [:ring] merge options))]
       (eval-in-project
        (-> project add-server-dep add-optional-nrepl-dep)
-       `(let [public-dir# (-> (Thread/currentThread)
-                              .getContextClassLoader
-                              (.getResources ~*resource-name*)
-                              enumeration-seq
-                              first)
+       `(let [public-dir# ~(common/get-public-dir project)
               handler# ~(-> project
                            :ring
                            :handler)
@@ -49,7 +35,7 @@
                                :scheme "http"
                                :request-method :get}])]
           (spit (io/file public-dir# "Dockerfile")
-                ~(get-docker-contents project))
+                ~(common/get-docker-data project :contents))
           (doall (map (fn [[uri# resource-file#]]
                         (spit (io/file public-dir# resource-file#)
                               (:body (apply handler#
