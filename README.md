@@ -9,7 +9,7 @@ A Leiningen plugin to extract static content from Ring endpoints.
 In `:plugins` in your `project.clj`:
 
 ```text
-[lein-ring-extract-static "0.1.1"]
+[lein-ring-extract-static "0.1.2"]
 ```
 
 To extract static into `resources/public` and create `Dockerfile` for serving them:
@@ -43,14 +43,15 @@ You can add the following configuration options at the root of your `project.clj
 ```clojure
   :ring {:handler your-app.core/app
          :port 8080
-         :static {"/" "index.html"}}
+         :static {"/" "index.html"
+                  :image-name "example/example-static"}}
 ```
 
 Defaults in `:ring`:
 
 * `:handler` is your ring handler against which all content is extracted
 * `:port` is the port of your web application (or 3000 by default)
-* `:static` is a map of resources to be extracted from the handler with keys as endpoints and values as files to be written
+* `:static` is a map of resources to be extracted from the handler with keys as endpoints and values as files to be written and Docker image name
 
 
 ## License

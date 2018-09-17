@@ -79,10 +79,12 @@
                                     (if (= (first splitted-app) app)
                                       app
                                       (second splitted-app)))
+                      openshift-registry (get-openshift-registry project)
                       registry (or (:registry config)
-                                   (get-openshift-registry project))]
-                  (if-let [openshift-registry (get-openshift-registry project)]
-                    (str openshift-registry "/" namespace "/" app)
-                    (if-let [docker-repo (get-in project [:docker :repo])]
-                      docker-repo
-                      (str namespace "/" app))))))
+                                   openshift-registry)]
+                  (or (get-in project [:ring :static :image-name])
+                      (if openshift-registry
+                        (str openshift-registry "/" namespace "/" app)
+                        (if-let [docker-repo (get-in project [:docker :repo])]
+                          docker-repo
+                          (str namespace "/" app)))))))

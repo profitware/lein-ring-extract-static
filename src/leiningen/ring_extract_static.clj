@@ -37,9 +37,10 @@
           (spit (io/file public-dir# "Dockerfile")
                 ~(common/get-docker-data project :contents))
           (doall (map (fn [[uri# resource-file#]]
-                        (spit (io/file public-dir# resource-file#)
-                              (:body (apply handler#
-                                            (get-options# uri#)))))
+                        (when (string? uri#)
+                          (spit (io/file public-dir# resource-file#)
+                                (:body (apply handler#
+                                              (get-options# uri#))))))
                       static-map#)))
        (apply load-namespaces
               (conj (into
