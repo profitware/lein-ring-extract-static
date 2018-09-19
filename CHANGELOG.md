@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.3 - 2018-09-19
+### Fixed
+- Excluded Dockerfile from being copied.
+
 ## 0.1.2 - 2018-09-17
 ### Added
 - Ability to specify Docker image name.

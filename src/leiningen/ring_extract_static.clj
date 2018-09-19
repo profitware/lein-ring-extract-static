@@ -36,6 +36,8 @@
                                :request-method :get}])]
           (spit (io/file public-dir# "Dockerfile")
                 ~(common/get-docker-data project :contents))
+          (spit (io/file public-dir# ".dockerignore")
+                ~(common/get-docker-data project :dockerignore-contents))
           (doall (map (fn [[uri# resource-file#]]
                         (when (string? uri#)
                           (spit (io/file public-dir# resource-file#)

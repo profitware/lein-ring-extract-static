@@ -9,7 +9,7 @@ A Leiningen plugin to extract static content from Ring endpoints.
 In `:plugins` in your `project.clj`:
 
 ```text
-[lein-ring-extract-static "0.1.2"]
+[lein-ring-extract-static "0.1.3"]
 ```
 
 To extract static into `resources/public` and create `Dockerfile` for serving them:

@@ -1,4 +1,4 @@
-(defproject lein-ring-extract-static "0.1.2"
+(defproject lein-ring-extract-static "0.1.3"
   :description "Extract static files from Ring endpoints and build Docker images with it"
   :url "http://github.com/profitware/lein-ring-extract-static"
   :dependencies [[lein-ring "0.12.0"]

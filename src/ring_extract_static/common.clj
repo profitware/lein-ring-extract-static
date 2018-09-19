@@ -63,6 +63,8 @@
                              "nginx:alpine")
                    \newline
                    "COPY . /usr/share/nginx/html" \newline)
+    :dockerignore-contents (str "Dockerfile" \newline
+                                ".dockerignore" \newline)
     :exposed-port (if (:openshift project)
                     "8081:8081"
                     "80:80")
